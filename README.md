@@ -1,4 +1,4 @@
-install langchain reuqirements 
+install langchain requirements 
 
 create your env and set your embeeding and llm model.
 
