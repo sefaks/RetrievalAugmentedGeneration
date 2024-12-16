@@ -11,10 +11,11 @@ from langchain_core.prompts import ChatPromptTemplate
 
 CHROMA_PATH = "data/chroma"
 PROMPT_TEMPLATE = """
-Answer the question based only on the following context:
+Bir ilkokul öğrencisine anlatacak şekilde basitçe soruya cevap vermeni istiyorum. Ona basit ve anlamsal şekilde anlatabilirsin. 
+Aşağıda sorunun cevabının içeriği yer almaktadır. Ona göre cevap ver.:
 {context}
 ---
-Answer the question based on the above context: {question}
+Cevap vereceğin soru bu şekilde, lütfen bu soruya yukarıdaki bilgileri kullanarak cevap ver: {question}
 """
 
 load_dotenv()
@@ -27,7 +28,9 @@ deployment = os.getenv("openai_model")
 client = AzureOpenAI(
     api_key=api_key,
     azure_endpoint=azure_endpoint,
-    api_version=api_version
+    api_version=api_version,
+    azure_deployment=deployment
+    
 )
 
 def query_openai(prompt):
@@ -35,7 +38,7 @@ def query_openai(prompt):
     response = client.chat.completions.create(
         model=deployment,
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=1000,
+        max_tokens=1500,
         temperature=0.7,
         top_p=1,
         n=1
